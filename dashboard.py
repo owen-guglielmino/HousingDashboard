@@ -14,13 +14,13 @@ st.set_page_config(
 #Loading main dataset
 @st.cache_data
 def load_main_data():
-    data = pd.read_csv('Data/df_merged.csv')
+    data = pd.read_csv('df_merged.csv')
     data['Date'] = pd.to_datetime(data['Date'])  # Ensure 'Date' is datetime type for easier filtering
     return data
 
 #Function for creating choropleth
 def create_choropleth():
-    data = pd.read_csv('Data/df_mortgage_rates.csv')
+    data = pd.read_csv('df_mortgage_rates.csv')
     state_avg_payment = data.groupby('Abbrev')['MonthlyPayment'].mean().reset_index()
     fig = px.choropleth(state_avg_payment,
                         locations='Abbrev',
@@ -34,7 +34,7 @@ def create_choropleth():
 
 #Function for creating rents linechart
 def create_rent_linechart():
-    df = pd.read_csv('Data/rents_payments.csv')
+    df = pd.read_csv('rents_payments.csv')
     df = df[df['Abbrev'] == state_selected]
     fig = px.line(df, x='Date', y=['MonthlyPayment', 'AvgRent'],
                   labels={'value': 'USD', 'variable':'Series'},
